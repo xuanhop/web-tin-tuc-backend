@@ -35,13 +35,20 @@
                         <tbody>
                         @foreach($posts as $post)
                             <tr>
-                                <th scope="row">{{$post->id}}</th>
+                                <th scope="row" id="post_id">{{$post->id}}</th>
                                 <td>{{$post->title}}</td>
-                                @if($post->status > 0)
-                                    <td>{{__('Active')}}</td>
-                                @else
-                                    <td>{{__('Inactive')}}</td>
-                                @endif
+                                <td>
+                                    <select id="dropdown" class="change_status" data="{{$post->id}}">
+                                        @if($post->status > 0)
+                                            <option value="1" selected >Active</option>
+                                            <option value="-1">Inactive</option>
+                                        @else
+                                            <option value="-1" selected>Inactive</option>
+                                            <option value="1">Active</option>
+                                        @endif
+                                    </select>
+                                </td>
+
                                 <td>{{$post->main_image}}</td>
                                 <td>{{$post->created_at}}</td>
                                 <td>{{$post->updated_at}}</td>
@@ -51,11 +58,12 @@
                                 @endforeach
 
                                 <td>
-                                    <a href="{{asset("posts/delete/$post->id")}}" class="btn btn-danger">Disable</a>
                                     <a href="{{asset("posts/edit/$post->id")}}" class="btn btn-primary">Edit</a>
                                 </td>
                             </tr>
+
                         @endforeach
+                        {{$posts}}
                         </tbody>
                     </table>
                 </div>
@@ -63,4 +71,22 @@
         </div>
     </div> <!-- container -->
 @endsection
+@push('scripts')
+    <script>
 
+        $(".change_status").change(function(){
+            var status = $(this).children("option:selected").val();
+            var id = $(this).attr("data");
+            $.ajax({
+                type: "POST",
+                url: '/posts/delete',
+                data: {id: id , status : status, "_token": "{{ csrf_token() }}"},
+                success( result){
+
+                }
+            })
+        });
+
+
+    </script>
+@endpush

@@ -30,5 +30,7 @@
 <!-- App js -->
 <script src="{{asset('js/jquery.core.js')}}"></script>
 <script src="{{asset('js/jquery.app.js')}}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 
 

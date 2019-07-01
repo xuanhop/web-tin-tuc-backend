@@ -20,30 +20,43 @@ class PostsController extends Controller
      */
     public function posts()
     {
-        $data = Posts::all()->forPage(1, 15);
+        $data = \App\Posts::paginate(15);
         return view('posts_management', ['posts' => $data]);
     }
 
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
-            'title' => 'required|max:255|min:5'
+            'title' => 'required|max:255|min:5',
+            'main_image' => 'filled|image'
         ]);
-        dd($_FILES);
-
 
         $post = new Posts();
-        $post->title = $request->title;
-        $post->status = $request->status;
-        $post->category_id = $request->category;
-        $post->main_image = $request->main_image;
-        $post->save();
+
+        $id = $post->insertGetId([
+            'title' => $request->title,
+            'status' => $request->status,
+            'main_image' => $_FILES['main_image']['name'],
+            'category_id' => $request->category
+        ]);
+
+        //Upload file to server
+        $target_dir = public_path().'\uploads\\';
+        $target_file = $target_dir.basename($_FILES['main_image']['name']);
+
+        if(isset($_POST["submit"])) {
+            if (!file_exists($target_file)){
+                if (move_uploaded_file($_FILES["main_image"]["tmp_name"], $target_file)){
+                    dd("successful");
+                }
+            }
+        }
 
         $meta = new Meta();
         $meta->data = $request->content_text;
-        $meta->post_id = $post->id;
+        $meta->post_id = $id;
         $meta->save();
+
         return redirect('posts');
     }
 
@@ -53,12 +66,17 @@ class PostsController extends Controller
      *
      * @return RedirectResponse|Redirector
      */
-    public function softDelete($id)
+    public function save($id, $status)
     {
-        $post = Posts::find($id);
-        $post->status = -1;
-        $post->save();
+        dd($status);
         return redirect('posts');
+    }
+
+    public function delete(){
+        $id = request()->post('id', '');
+        $status = request()->post('status', '');
+
+        return response()->json(['id' => $id , 'status' => $status]);
     }
 
     /**

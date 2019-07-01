@@ -21,8 +21,9 @@ Route::get('create', function (){
     $categories = \App\Category::all();
     return view('layouts.create', ['categories' => $categories]);
 });
-Route::get('posts/delete/{id}', 'PostsController@softDelete');
+Route::get('posts/save/{id}/{status}', 'PostsController@save');
 Route::get('posts/edit/{id}', 'PostsController@edit');
+Route::post('posts/delete' , 'PostsController@delete');
 
 //Post route here
 Route::post('/', 'LoginController@login');

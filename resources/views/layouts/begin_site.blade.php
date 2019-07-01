@@ -23,3 +23,4 @@
 <link href="{{asset('css/menu.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('css/responsive.css')}}" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="{{asset('plugins/switchery/switchery.min.css')}}">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
