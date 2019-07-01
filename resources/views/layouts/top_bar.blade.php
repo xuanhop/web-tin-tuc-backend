@@ -16,10 +16,11 @@
                 </button>
             </li>
             <li class="hidden-xs">
-                <form role="search" class="app-search">
+                <form class="app-search" action="" method="get" name="search-form">
+                    @csrf
                     <input type="text" placeholder="Search..."
-                           class="form-control">
-                    <a href=""><i class="fa fa-search"></i></a>
+                           class="form-control" name="search">
+                    <a href="{{asset('posts/search')}}"><i class="fa fa-search"></i></a>
                 </form>
             </li>
             <li class="dropdown hidden-xs">

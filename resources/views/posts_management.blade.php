@@ -40,7 +40,7 @@
                                 <td>
                                     <select id="dropdown" class="change_status" data="{{$post->id}}">
                                         @if($post->status > 0)
-                                            <option value="1" selected >Active</option>
+                                            <option value="1" selected>Active</option>
                                             <option value="-1">Inactive</option>
                                         @else
                                             <option value="-1" selected>Inactive</option>
@@ -74,19 +74,20 @@
 @push('scripts')
     <script>
 
-        $(".change_status").change(function(){
-            var status = $(this).children("option:selected").val();
-            var id = $(this).attr("data");
+        $(".change_status").change(function () {
+            let status = $(this).children("option:selected").val();
+            let id = $(this).attr("data");
             $.ajax({
                 type: "POST",
                 url: '/posts/delete',
-                data: {id: id , status : status, "_token": "{{ csrf_token() }}"},
-                success( result){
+                data: {id: id, status: status, "_token": "{{ csrf_token() }}"},
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (result) {
 
                 }
             })
         });
-
-
     </script>
 @endpush

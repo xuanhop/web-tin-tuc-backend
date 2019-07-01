@@ -21,12 +21,12 @@ Route::get('create', function (){
     $categories = \App\Category::all();
     return view('layouts.create', ['categories' => $categories]);
 });
-Route::get('posts/save/{id}/{status}', 'PostsController@save');
 Route::get('posts/edit/{id}', 'PostsController@edit');
-Route::post('posts/delete' , 'PostsController@delete');
+Route::get('posts/search', 'SearchController@search');
 
 //Post route here
 Route::post('/', 'LoginController@login');
 Route::post('create', 'PostsController@store');
 Route::post('/posts/edit/{id}', 'PostsController@update');
+Route::post('/posts/delete' , 'PostsController@delete');
 

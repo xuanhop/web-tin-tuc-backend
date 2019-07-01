@@ -4,9 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
 
+/**
+ * App\Posts
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posts newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posts newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posts query()
+ * @mixin \Eloquent
+ */
 class Posts extends Model
 {
+    use Searchable;
     protected $table = 'posts';
 
     protected function category()
@@ -26,5 +36,4 @@ class Posts extends Model
         $id = DB::table($this->table)->insertGetId($array);
         return $id;
     }
-
 }

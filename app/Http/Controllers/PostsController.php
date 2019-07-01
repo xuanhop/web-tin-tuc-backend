@@ -61,21 +61,15 @@ class PostsController extends Controller
     }
 
     /**
-     * Update post status to -1
-     * @param $id
-     *
-     * @return RedirectResponse|Redirector
+     * Update post to status
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function save($id, $status)
-    {
-        dd($status);
-        return redirect('posts');
-    }
-
     public function delete(){
         $id = request()->post('id', '');
         $status = request()->post('status', '');
-
+        Posts::where('id', $id)->update(['status' => $status]);
+//        $post->status = $status;
+//        $post->save();
         return response()->json(['id' => $id , 'status' => $status]);
     }
 
@@ -90,8 +84,22 @@ class PostsController extends Controller
         return view('layouts.create', ['post' => $post]);
     }
 
-    public function update(Request $request)
+    /**
+     * @effect: Update data from form request
+     * @param Request $request
+     */
+    public function update(Request $request, $id)
     {
+        Posts::where('id', $id)->update([
+           'title' => $request->title,
+            'status' => $request->status,
+            'main_image' => $request->main_image,
+            'category_id' => $request->category,
+        ]);
+        Meta::where('post_id', $id)->update([
+            'data' => $request->content_text
+        ]);
 
+        return redirect('/post');
     }
 }

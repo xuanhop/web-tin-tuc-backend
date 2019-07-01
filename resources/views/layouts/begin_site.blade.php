@@ -5,6 +5,8 @@
 
 <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
 <meta name="author" content="Coderthemes">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 
 <!-- App favicon -->
 <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">

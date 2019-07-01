@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <form action="" method="post"  enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="title">Title: <span style="color: red;">(*)</span></label>
@@ -49,7 +49,7 @@
                             <select class="form-control" name="category">
                                 @foreach($categories as $category)
                                     <option @if($category->id == $post->category_id) selected
-                                            @endif class="form-control">{{$category->name}}</option>
+                                            @endif class="form-control" value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -61,7 +61,12 @@
                         </div>
                         <div class="form-group">
                             <label for="main_image">Main Image:<span style="color: red;">(*)</span> </label>
-                            <input type="file" class="form-group" name="main_image" required>
+                            <div class="form-group">
+                                <img src="{{asset('uploads/'.$post->main_image)}}" alt="main_image">
+                            </div>
+
+                            <input type="file" class="form-group" name="main_image" >
+
                         </div>
                         <div class="form-group m-t-3 ">
                             <input type="submit" class="btn btn-primary" name="submit">
@@ -116,7 +121,7 @@
                         </div>
                         <div class="form-group">
                             <label for="main_image">Main Image:<span style="color: red;">(*)</span> </label>
-                            <input type="file" class="form-group" name="main_image" >
+                            <input type="file" class="form-group" name="main_image">
                             @error('main_image')
                             <div class="alert alert-danger">{{$message}}</div>
                             @enderror
