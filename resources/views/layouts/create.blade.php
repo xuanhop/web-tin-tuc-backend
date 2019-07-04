@@ -25,7 +25,7 @@
                     <form action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="title">Title: <span style="color: red;">(*)</span></label>
+                            <label for="title">Title: </label>
                             <input class="form-control" type="text" name="title" value="{{$post->title}}">
                         </div>
                         <div class="form-group">
@@ -49,7 +49,8 @@
                             <select class="form-control" name="category">
                                 @foreach($categories as $category)
                                     <option @if($category->id == $post->category_id) selected
-                                            @endif class="form-control" value="{{$category->id}}">{{$category->name}}</option>
+                                            @endif class="form-control"
+                                            value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,16 +61,16 @@
                             @endforeach
                         </div>
                         <div class="form-group">
-                            <label for="main_image">Main Image:<span style="color: red;">(*)</span> </label>
+                            <label for="main_image">Main Image: </label>
                             <div class="form-group">
-                                <img src="{{asset('uploads/'.$post->main_image)}}" alt="main_image">
+                                <img src="{{url('uploads/'.$post->main_image)}}" style="border: 1px solid #ddd; border-radius: 4px;
+                                    padding: 5px;
+                                    width: 150px;" alt="main_image">
                             </div>
-
-                            <input type="file" class="form-group" name="main_image" >
-
+                            <input type="file" class="form-group" name="main_image">
                         </div>
                         <div class="form-group m-t-3 ">
-                            <input type="submit" class="btn btn-primary" name="submit">
+                            <input type="submit" class="btn btn-primary" name="submit" value="submit">
                         </div>
                     </form>
                 </div>

@@ -16,7 +16,7 @@ use Laravel\Scout\Searchable;
  */
 class Posts extends Model
 {
-    use Searchable;
+
     protected $table = 'posts';
 
     protected function category()
@@ -31,6 +31,8 @@ class Posts extends Model
 
     /**
      * @effects: Insert into database and return id in the same time
+     * @param $array
+     * @return int
      */
     public function insertGetId($array){
         $id = DB::table($this->table)->insertGetId($array);

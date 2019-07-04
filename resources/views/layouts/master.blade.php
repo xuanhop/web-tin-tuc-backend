@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>@yield('title')</title>
+    @stack('css')
     @include('layouts.begin_site')
 </head>
 <body class="fixed-left">

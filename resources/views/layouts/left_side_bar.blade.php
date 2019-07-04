@@ -100,8 +100,8 @@
                         <span> Tables </span> <span class="menu-arrow"></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{asset('/posts')}}">Posts Management</a></li>
-                        <li><a href="tables-layouts.html">Tables Layouts</a></li>
-                        <li><a href="tables-datatable.html">Data Table</a></li>
+                        <li><a href="{{asset('/categories')}}">Categories Management</a></li>
+                        <li><a href="{{asset('tag')}}">Tags Management</a></li>
                         <li><a href="tables-responsive.html">Responsive Table</a></li>
                         <li><a href="tables-tablesaw.html">Tablesaw Table</a></li>
                         <li><a href="tables-editable.html">Editable Table</a></li>

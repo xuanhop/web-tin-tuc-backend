@@ -16,7 +16,7 @@ use Laravel\Scout\Searchable;
  */
 class Meta extends Model
 {
-    use Searchable;
+
     protected $table = 'meta';
 
     public $timestamps = false;

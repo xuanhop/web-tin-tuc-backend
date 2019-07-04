@@ -15,6 +15,13 @@ use Laravel\Scout\Searchable;
  */
 class Category extends Model
 {
-    use Searchable;
     protected $table = 'categories';
+
+    protected function user(){
+        return $this->belongsTo('\App\User', 'creator', 'id');
+    }
+
+    function child(){
+        return $this->hasMany('\App\Category', 'parent_id', 'id');
+    }
 }

@@ -16,11 +16,12 @@
                 </button>
             </li>
             <li class="hidden-xs">
-                <form class="app-search" action="" method="get" name="search-form">
+                <form class="app-search" action="{{asset('posts/search')}}" method="post" id="myForm">
                     @csrf
                     <input type="text" placeholder="Search..."
                            class="form-control" name="search">
-                    <a href="{{asset('posts/search')}}"><i class="fa fa-search"></i></a>
+
+                    {{--                    <a href="{{asset('posts/search')}}" onclick="return document.getElementById('myForm').submit()"><i class="fa fa-search"></i></a>--}}
                 </form>
             </li>
             <li class="dropdown hidden-xs">
@@ -165,3 +166,10 @@
 
     </div><!-- end container -->
 </div><!-- end navbar -->
+<script>
+    document.onkeypress(function (e) {
+        if (e.keyCode === 13){
+            document.getElementById("myForm").submit();
+        }
+    })
+</script>

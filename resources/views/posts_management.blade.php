@@ -16,6 +16,7 @@
             <div class="">
                 <div>
                     <a class="btn btn-success" href="{{asset('/create')}}"><i class="glyphicon glyphicon-plus"></i> </a>
+                    <a class="btn btn-orange" href="{{asset('posts/inactive')}}">List Inactive Posts</a>
                 </div>
                 <div>
                     <table class="table">
@@ -49,7 +50,9 @@
                                     </select>
                                 </td>
 
-                                <td>{{$post->main_image}}</td>
+                                <td><img src="{{asset('/uploads/'.$post->main_image)}}" style="border: 1px solid #ddd; border-radius: 4px;
+                                    padding: 5px;
+                                    width: 150px;"></td>
                                 <td>{{$post->created_at}}</td>
                                 <td>{{$post->updated_at}}</td>
                                 <td>{{$post->category->name}}</td>
@@ -85,7 +88,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (result) {
-
+                    location.reload();
                 }
             })
         });
