@@ -64,7 +64,6 @@
                                     <a href="{{asset("posts/edit/$post->id")}}" class="btn btn-primary">Edit</a>
                                 </td>
                             </tr>
-
                         @endforeach
                         {{$posts}}
                         </tbody>
