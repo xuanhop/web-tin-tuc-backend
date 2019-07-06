@@ -121,6 +121,14 @@
                             <textarea class="form-control" name="content_text">{{old('')}}</textarea>
                         </div>
                         <div class="form-group">
+                            <label for="Tag">Tags:</label>
+                            <div>
+                                @foreach($tags as $tag)
+                                    <input type="checkbox" value="{{$tag->id}}" name="tag[]">{{$tag->tag_name}}<br>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="main_image">Main Image:<span style="color: red;">(*)</span> </label>
                             <input type="file" class="form-group" name="main_image">
                             @error('main_image')

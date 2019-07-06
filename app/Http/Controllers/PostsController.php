@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Meta;
 use App\Posts;
+use App\Relation;
+use App\Tag;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -41,7 +43,12 @@ class PostsController extends Controller
             'main_image' => $_FILES['main_image']['name'],
             'category_id' => $request->category
         ]);
-
+        foreach ($request->tag as $tag_id) {
+            Relation::insert([
+                'post_id' => $id,
+                'tag_id' => $tag_id
+            ]);
+        }
         //Upload file to server
         $target_dir = public_path() . '\uploads\\';
         $target_file = $target_dir . basename($_FILES['main_image']['name']);
@@ -120,12 +127,15 @@ class PostsController extends Controller
         return redirect('posts');
     }
 
-    public function index(){
+    public function index()
+    {
         $categories = \App\Category::all();
-        return view('layouts.create', ['categories' => $categories]);
+        $tags = Tag::all();
+        return view('layouts.create', ['categories' => $categories, 'tags' => $tags]);
     }
 
-    public function inactivePosts(){
+    public function inactivePosts()
+    {
         $posts = \App\Posts::where('status', '=', -1)->paginate(15);
         return view('layouts.inactive', ['posts' => $posts]);
     }

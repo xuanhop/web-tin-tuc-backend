@@ -52,7 +52,7 @@
 
                                 <td><img src="{{asset('/uploads/'.$post->main_image)}}" style="border: 1px solid #ddd; border-radius: 4px;
                                     padding: 5px;
-                                    width: 150px;"></td>
+                                    width: 150px;" alt=""></td>
                                 <td>{{$post->created_at}}</td>
                                 <td>{{$post->updated_at}}</td>
                                 <td>{{$post->category->name}}</td>

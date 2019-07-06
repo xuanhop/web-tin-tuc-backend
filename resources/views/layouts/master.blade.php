@@ -6,14 +6,14 @@
     @include('layouts.begin_site')
 </head>
 <body class="fixed-left">
-<div class="wrapper">
+<div id="wrapper">
     {{--    Site-bar--}}
     <div class="topbar">
         @include('layouts.top_bar')
     </div>
     @include('layouts.left_side_bar')
     <div class="content-page">
-        <div class="content">
+        <div class="content" style="margin:0 15px 0 15px">
             @yield('content')
         </div>
     </div>

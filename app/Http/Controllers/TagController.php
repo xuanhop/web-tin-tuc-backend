@@ -5,33 +5,51 @@ namespace App\Http\Controllers;
 use App\Posts;
 use App\Relation;
 use App\Tag;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 class TagController extends Controller
 {
-    function index()
+    /**
+     * @return Factory|View
+     */
+    public function index()
     {
         $tags = Tag::all();
         return view('tag_manage', ['tags' => $tags]);
     }
 
-    function delete($id)
+    /**
+     * @param $id
+     * @return RedirectResponse|Redirector
+     */
+    public function delete($id)
     {
         Tag::where('id', '=', $id)->delete();
         Relation::where('tag_id', $id)->delete();
         return redirect('tag');
     }
 
-    function edit($id)
+    /**
+     * @param $id
+     * @return Factory|View
+     */
+    public function edit($id)
     {
         $tag = Tag::where('id', $id)->first();
         return view('edit_tag')->with('tag', $tag);
     }
 
+    /**
+     * @param $id
+     * @return RedirectResponse|Redirector
+     */
     function update($id)
     {
         $count = Relation::where('id', $id)->select('post_id')->count();
-        dd($count);
         $tagName = request('tag_name');
         Tag::where('id', $id)->update([
             'tag_name' => $tagName,
@@ -40,7 +58,11 @@ class TagController extends Controller
         return redirect('tag');
     }
 
-    public function store(){
+    /**
+     * @return RedirectResponse|Redirector
+     */
+    public function store()
+    {
         $validate = \request()->validate([
             'tag_name' => 'required'
         ]);
