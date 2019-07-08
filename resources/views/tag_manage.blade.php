@@ -35,7 +35,7 @@
                         <tr>
                             <td>{{$tag->id}}</td>
                             <td>{{$tag->tag_name}}</td>
-                            <td>{{$tag->count}}</td>
+                            <td>{{$tag->relation->count()}}</td>
                             <td>{{$tag->created_at}}</td>
                             <td>{{$tag->updated_at}}</td>
                             <td>
@@ -46,6 +46,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                <div style="float: right">{{$tags->links('vendor.pagination.default')}}</div>
             </div>
         </div>
     </div>

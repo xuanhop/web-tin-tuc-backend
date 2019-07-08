@@ -9,6 +9,6 @@ class Tag extends Model
     protected $table = 'tags';
 
     public function relation(){
-        return $this->hasMany('Relation', 'tag_id', 'id');
+        return $this->hasMany('App\Relation', 'tag_id', 'id');
     }
 }

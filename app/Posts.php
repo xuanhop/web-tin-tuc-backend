@@ -23,12 +23,12 @@ class Posts extends Model
 
     protected function category()
     {
-        return $this->belongsTo('\App\Category', 'category_id', 'id');
+        return $this->belongsTo('App\Category', 'category_id', 'id');
     }
 
-    protected function meta()
+    public function meta()
     {
-        return $this->hasMany('\App\Meta', 'post_id', 'id');
+        return $this->hasMany('App\Meta', 'post_id', 'id');
     }
 
     /**

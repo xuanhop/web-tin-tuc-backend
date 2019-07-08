@@ -14,10 +14,12 @@
 //-------------------------------------//
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'login');
 Route::view('sign-up', 'sign-up');
 Route::view('tag/create', 'create_tag');
+Route::view('contact/location', 'google_map');
 
+Route::get('/', 'LoginController@login');
+Route::get('dashboard', 'DashboardController@index');
 Route::get('logout', 'LoginController@logout')->name('logout');
 Route::get('posts', 'PostsController@posts')->name('posts');
 Route::get('create', 'PostsController@index');
@@ -32,6 +34,7 @@ Route::get('categories/disable-item', 'CategoryController@disable_item');
 Route::get('tag', 'TagController@index');
 Route::get('tag/delete/{id}', 'TagController@delete');
 Route::get('tag/edit/{id}', 'TagController@edit');
+
 //Post route here
 Route::post('/', 'LoginController@login');
 Route::post('create', 'PostsController@store');

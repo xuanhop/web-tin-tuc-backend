@@ -152,11 +152,8 @@
 
                 <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                     <li>
-                        <h5>Hi, John</h5>
+                        <h5>Hi, {{session()->get('user')->name}}</h5>
                     </li>
-                    <li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
-                    <li><a href="javascript:void(0)"><i class="ti-settings m-r-5"></i> Settings</a></li>
-                    <li><a href="javascript:void(0)"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
                     <li><a href="{{asset('/logout')}}"><i class="ti-close m-r-5"></i>Logout</a> </button>
                     </li>
                 </ul>

@@ -3,7 +3,7 @@
 @section('title', 'Posts Management')
 @section('content')
     <!-- Start right Content here -->
-    <div class="container">
+    <div class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-box">

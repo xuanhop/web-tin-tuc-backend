@@ -4,7 +4,7 @@
 @section('title', 'Categories Management')
 
 @section('content')
-    <div class="container">
+    <div class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-box">

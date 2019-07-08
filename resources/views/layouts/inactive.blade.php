@@ -3,7 +3,7 @@
 @section('title', 'Posts Management')
 
 @section('content')
-    <div class="container">
+    <div class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-box">
@@ -55,7 +55,11 @@
                                 <td>{{$post->updated_at}}</td>
                                 <td>{{$post->category->name}}</td>
                                 @foreach($post->meta as $content)
+
                                     <td>{{$content->data}}</td>
+                                    @if(empty($content))
+                                        <td> </td>
+                                    @endif
                                 @endforeach
 
                                 <td>

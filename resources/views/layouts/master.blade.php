@@ -13,7 +13,7 @@
     </div>
     @include('layouts.left_side_bar')
     <div class="content-page">
-        <div class="content" style="margin:0 15px 0 15px">
+        <div class="container" style="margin:0 15px 0 15px">
             @yield('content')
         </div>
     </div>

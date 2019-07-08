@@ -18,7 +18,13 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
+        $tags = Tag::with('relation')->paginate(15);
+//        foreach ($tags as $tag) {
+//            $count = Relation::select('post_id')->where('tag_id', $tag->id)->count();
+//            Tag::where('id', $tag->id)->update([
+//                'count' => $count
+//            ]);
+//        }
         return view('tag_manage', ['tags' => $tags]);
     }
 

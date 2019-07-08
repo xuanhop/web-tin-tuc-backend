@@ -91,7 +91,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Posts::find($id);
+        $post = Posts::where('id',$id)->with('meta')->first();
+
         return view('layouts.create', ['post' => $post]);
     }
 
@@ -129,9 +130,8 @@ class PostsController extends Controller
 
     public function index()
     {
-        $categories = \App\Category::all();
-        $tags = Tag::all();
-        return view('layouts.create', ['categories' => $categories, 'tags' => $tags]);
+        $categories = \App\Category::paginate(15);
+        return view('layouts.create', ['categories' => $categories]);
     }
 
     public function inactivePosts()

@@ -10,8 +10,14 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
+
     public function login(Request $request)
     {
+        view('login')->render();
         $email = $request->get('email');
         $pass = $request->get('pass');
 
@@ -19,7 +25,7 @@ class LoginController extends Controller
 
         if ($user && Hash::check($pass, $user->password)) {
             $request->session()->put('user', $user);
-            return view('index');
+            return redirect('dashboard');
         } else {
             return view('login');
         }

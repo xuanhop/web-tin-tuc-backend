@@ -7,7 +7,7 @@
 
 @section('content')
     @if(isset($post))
-        <div class="container">
+        <div class="content">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="page-title-box">
@@ -55,11 +55,30 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="content">Content</label>
-                            @foreach($post->meta as $item)
-                                <textarea class="form-control" name="content_text">{{$item->data}}</textarea>
+                            <label for="content">Content:</label>
+                            @foreach($post->meta as $attribute)
+                                <textarea class="form-control" name="content_text">{{$attribute->data}}</textarea>
+
                             @endforeach
+                            @if($post->meta->isEmpty())
+                                <textarea class="form-control" name="content_text"></textarea>
+                            @endif
                         </div>
+                        {{--                        <div class="form-group">--}}
+                        {{--                            <label for="Tag">Tags name: </label>--}}
+                        {{--                            <div class="form-check">--}}
+
+                        {{--                                @foreach($tags as $tag)--}}
+                        {{--                                    <div class="">--}}
+                        {{--                                        <div class="col-sm-4">--}}
+
+                        {{--                                            <input type="checkbox" value="{{$tag->id}}"--}}
+                        {{--                                                   name="tag[]">{{$tag->tag_name}}--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                @endforeach--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                         <div class="form-group">
                             <label for="main_image">Main Image: </label>
                             <div class="form-group">
@@ -78,7 +97,7 @@
         </div>
     @else
         <!--Form create-->
-        <div class="container">
+        <div class="content">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="page-title-box">
@@ -120,14 +139,19 @@
                             <label for="content">Content</label>
                             <textarea class="form-control" name="content_text">{{old('')}}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="Tag">Tags:</label>
-                            <div>
-                                @foreach($tags as $tag)
-                                    <input type="checkbox" value="{{$tag->id}}" name="tag[]">{{$tag->tag_name}}<br>
-                                @endforeach
-                            </div>
-                        </div>
+                        {{--                        <div class="form-group">--}}
+                        {{--                            <label for="Tag">Tags:</label>--}}
+                        {{--                            <div class="form-group">--}}
+                        {{--                                @foreach($tags as $tag)--}}
+                        {{--                                    <div class="">--}}
+                        {{--                                        <div class="col-sm-4">--}}
+                        {{--                                            <input type="checkbox" value="{{$tag->id}}" name="tag[]">{{$tag->tag_name}}--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                @endforeach--}}
+                        {{--                                {{$tags->links('layouts.display')}}--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                         <div class="form-group">
                             <label for="main_image">Main Image:<span style="color: red;">(*)</span> </label>
                             <input type="file" class="form-group" name="main_image">
