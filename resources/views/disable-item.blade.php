@@ -1,8 +1,13 @@
-{{--{{($disableCategories)}}--}}
 @extends('layouts.master')
 
-@section('title', 'Categories Management')
-
+@section('title', 'Categories management')
+@push('css')
+    <style>
+        td.actions {
+            text-align: center;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="content">
         <div class="row">
@@ -26,9 +31,9 @@
                         <thead class="table sticky-table-header">
                         <tr>
                             <td>Id</td>
+                            <td></td>
                             <td>Name</td>
                             <td>Description</td>
-                            <td>Parent category</td>
                             <td>Created at</td>
                             <td>Updated at</td>
                             <td>Creator/Editor</td>
@@ -37,30 +42,7 @@
                         </thead>
                         <tbody>
                         @foreach($disableCategories as $category)
-                            <tr>
-                                <td>{{$category->id}}</td>
-                                <td>{{$category->name}}</td>
-                                <td>{{$category->description}}</td>
-                                @if($category->parent_id == 0)
-                                    <td>{{__('No parent')}}</td>
-                                @else
-                                    @php
-                                        $var = \App\Category::select('name')->where('id', '=', $category->parent_id)->first();
-                                    @endphp
-                                    <td>{{$var->name}}</td>
-                                @endif
-                                <td>{{$category->created_at}}</td>
-                                <td>{{$category->updated_at}}</td>
-                                <td>
-                                    {{$category->user->name}}
-                                </td>
-                                <td class="actions">
-                                    <a href="{{asset('categories/edit/'.$category->id)}}" class="btn btn-primary"><i
-                                                class="glyphicon glyphicon-pencil"></i></a>
-                                    <a href="{{asset('categories/delete/'.$category->id)}}" class="btn btn-danger"><i
-                                                class="glyphicon glyphicon-trash"></i></a>
-                                </td>
-                            </tr>
+                            @include('loop-category', ['category' => $category , 'child' => 0])
                         @endforeach
                         </tbody>
                     </table>

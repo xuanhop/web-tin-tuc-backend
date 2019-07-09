@@ -50,18 +50,18 @@
                                     </select>
                                 </td>
 
-                                <td>{{$post->main_image}}</td>
+                                <td><img src="{{asset('/uploads/'.$post->main_image)}}" alt="" style="border: 1px solid #ddd; border-radius: 4px;
+                                    padding: 5px;
+                                    width: 150px;"></td>
                                 <td>{{$post->created_at}}</td>
                                 <td>{{$post->updated_at}}</td>
                                 <td>{{$post->category->name}}</td>
                                 @foreach($post->meta as $content)
-
                                     <td>{{$content->data}}</td>
-                                    @if(empty($content))
-                                        <td> </td>
-                                    @endif
                                 @endforeach
-
+                                @if($post->meta->isEmpty())
+                                    <td></td>
+                                @endif
                                 <td>
                                     <a href="{{asset("posts/edit/$post->id")}}" class="btn btn-primary">Edit</a>
                                 </td>

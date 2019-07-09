@@ -18,13 +18,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::with('relation')->paginate(15);
-//        foreach ($tags as $tag) {
-//            $count = Relation::select('post_id')->where('tag_id', $tag->id)->count();
-//            Tag::where('id', $tag->id)->update([
-//                'count' => $count
-//            ]);
-//        }
+        $tags = Tag::with('relation')->orderBy('id', 'DESC')->paginate(15);
         return view('tag_manage', ['tags' => $tags]);
     }
 
@@ -53,14 +47,9 @@ class TagController extends Controller
      * @param $id
      * @return RedirectResponse|Redirector
      */
-    function update($id)
+    public function update($id)
     {
-        $count = Relation::where('id', $id)->select('post_id')->count();
-        $tagName = request('tag_name');
-        Tag::where('id', $id)->update([
-            'tag_name' => $tagName,
-            'count' => $count
-        ]);
+        Tag::updateTag($id);
         return redirect('tag');
     }
 
@@ -69,12 +58,10 @@ class TagController extends Controller
      */
     public function store()
     {
-        $validate = \request()->validate([
+        \request()->validate([
             'tag_name' => 'required'
         ]);
-        Tag::insert([
-            'tag_name' => \request('tag_name'),
-        ]);
+        Tag::store();
         return redirect('tag');
     }
 }

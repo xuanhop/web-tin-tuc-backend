@@ -154,7 +154,7 @@
                     <li>
                         <h5>Hi, {{session()->get('user')->name}}</h5>
                     </li>
-                    <li><a href="{{asset('/logout')}}"><i class="ti-close m-r-5"></i>Logout</a> </button>
+                    <li><a href="{{asset('/logout')}}"><i class="ti-close m-r-5"></i>Logout</a>
                     </li>
                 </ul>
             </li>

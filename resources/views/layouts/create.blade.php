@@ -43,9 +43,6 @@
 
                         <div class="form-group">
                             <label for="category_name">Category: </label>
-                            @php
-                                $categories = \App\Category::all();
-                            @endphp
                             <select class="form-control" name="category">
                                 @foreach($categories as $category)
                                     <option @if($category->id == $post->category_id) selected

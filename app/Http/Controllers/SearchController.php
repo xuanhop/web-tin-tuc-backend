@@ -20,6 +20,7 @@ class SearchController extends Controller
         }
         $categories = Category::where('name', 'LIKE', '%' . $search . '%')->orwhere('description', 'LIKE',
             '%' . $search . '%')->get();
+
         return view('search', ['posts' => $posts]);
     }
 }

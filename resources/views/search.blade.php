@@ -2,7 +2,7 @@
 
 @section('title', 'Posts Management')
 @section('content')
-    <div class="container">
+    <div class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-box">
@@ -13,8 +13,7 @@
         <div class="row">
             <div class="">
                 <div>
-                    <a class="btn btn-success" href="{{asset('/create')}}"><i class="glyphicon glyphicon-plus"></i> </a>
-                    <a class="btn btn-orange" href="{{asset('posts/inactive')}}">List Inactive Posts</a>
+                    <a class="btn btn-success" href="{{asset('/create')}}"><i class="glyphicon glyphicon-plus"></i></a>
                 </div>
             </div>
 

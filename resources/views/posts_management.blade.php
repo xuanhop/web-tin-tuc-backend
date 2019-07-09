@@ -59,7 +59,9 @@
                                 @foreach($post->meta as $content)
                                     <td>{{$content->data}}</td>
                                 @endforeach
-
+                                @if($post->meta->isEmpty())
+                                    <td></td>
+                                @endif
                                 <td>
                                     <a href="{{asset("posts/edit/$post->id")}}" class="btn btn-primary">Edit</a>
                                 </td>

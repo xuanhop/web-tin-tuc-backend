@@ -18,29 +18,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'category_name' => 'required'
-        ]);
-        $categoryName = $request->get('category_name');
-        $description = $request->get('description');
-        $status = $request->get('status');
-        $parent_id = $request->get('parent_category');
-        $arr = session('user');
-        $category = new Category();
-        if ($parent_id != 0) {
-            $category->name = $categoryName;
-            $category->description = $description;
-            $category->status = $status;
-            $category->parent_id = $parent_id;
-            $category->creator = $arr->id;
-
-        } else {
-            $category->name = $categoryName;
-            $category->description = $description;
-            $category->status = $status;
-            $category->creator = $arr->id;
-        }
-        $category->save();
+        Category::store($request);
         return redirect('categories');
     }
 
@@ -51,14 +29,7 @@ class CategoryController extends Controller
      */
     public function delete($id)
     {
-        Category::where('id', '=', $id)->update([
-            'status' => -1,
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-        Category::where('parent_id', '=', $id)->update([
-            'status' => -1,
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        Category::softDelete($id);
         return redirect('categories');
     }
 
@@ -81,18 +52,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $categoryName = $request->get('category_name');
-        $description = $request->get('description');
-        $status = $request->get('status');
-        $parent_id = $request->get('parent_category');
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        Category::where('id', '=', $id)->update([
-            'name' => $categoryName,
-            'description' => $description,
-            'status' => $status,
-            'parent_id' => $parent_id,
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        Category::updateCategory($request, $id);
         return redirect('categories');
     }
 
@@ -102,10 +62,13 @@ class CategoryController extends Controller
     }
 
     public function index(){
-        $categories = App\Category::where('status', '=', 1)->get();
+        $categories = \App\Category::where('status', '=', 1)->get();
         return view('create_category', ['categories' => $categories]);
     }
 
+    /**
+     * @return Factory|View
+     */
     public function disable_item(){
         $disableCategories = \App\Category::where('status', '=', -1)->get();
         return view('disable-item', ['disableCategories' => $disableCategories]);
