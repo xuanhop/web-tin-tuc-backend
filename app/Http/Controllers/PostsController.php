@@ -21,27 +21,34 @@ class PostsController extends Controller
 
     public function posts()
     {
-        $data = Posts::posts();
+        $data = Posts::getPostWithStatus(1, 15);
         return \view('posts_management')->with('posts', $data);
     }
 
     public function store(Request $request)
     {
-        $validatedData =$request->validate([
+        $request->validate([
             'title' => 'required|max:255|min:5',
-            'main_image' => 'require|filled|image'
+            'main_image' => 'required|filled|image',
         ]);
-        Posts::insert();
-        return \redirect('posts');
+        $title = $request->title;
+        $status = $request->status;
+        $category = $request->category;
+        $data = $request->content_text;
+        Posts::insert($title, $status, $category, $data);
+        return redirect('posts');
     }
 
     /**
      * Update status post
      * @return void
      */
-    public function delete()
+    public function delete(Request $request)
     {
-        Posts::deletePost();
+        $id = $request->post('id', '');
+        $status = $request->post('status', '');
+        Posts::deletePost($id, $status);
+        return redirect('posts');
     }
 
     /**
@@ -51,8 +58,9 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Posts::edit($id);
-        $categories = Category::all();
+        $post = Posts::editPost($id);
+
+        $categories = Category::index()->get();
         return view('layouts.create', ['post' => $post, 'categories' => $categories]);
     }
 
@@ -64,7 +72,8 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Posts::updatePost($id);
+        Posts::updatePost($id, $request->title, $request->status, $request->category, $request->main_image,
+            $request->content_text);
         return redirect('posts');
     }
 
@@ -74,7 +83,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $categories = \App\Category::all();
+        $categories = Category::index()->get();
         return view('layouts.create', ['categories' => $categories]);
     }
 
@@ -84,7 +93,7 @@ class PostsController extends Controller
      */
     public function inactivePosts()
     {
-        $posts = Posts::inactivePost();
+        $posts = Posts::getPostWithStatus(-1, 15);
         return view('layouts.inactive', ['posts' => $posts]);
     }
 }

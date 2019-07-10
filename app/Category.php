@@ -21,25 +21,18 @@ class Category extends Model
     protected $table = 'categories';
     public $timestamps = true;
 
-    protected function user()
+    public function user()
     {
         return $this->belongsTo('\App\User', 'creator', 'id');
     }
 
-    function child()
+    public function child()
     {
         return $this->hasMany('\App\Category', 'parent_id', 'id');
     }
 
-    public static function store(Request $request)
+    public static function store($categoryName, $description, $status, $parent_id)
     {
-        $validate = $request->validate([
-            'category_name' => 'required'
-        ]);
-        $categoryName = $request->get('category_name');
-        $description = $request->get('description');
-        $status = $request->get('status');
-        $parent_id = $request->get('parent_category');
         $arr = session('user');
         if ($parent_id != 0) {
             self::insert([
@@ -59,13 +52,28 @@ class Category extends Model
         }
     }
 
+    public function scopeDisable($query)
+    {
+        return $query->where('status', '=', -1);
+    }
+
+    public function scopeIndex($query)
+    {
+        return $query->where('status', '=', 1);
+    }
+
+    public function scopeCategories($query)
+    {
+        return $query->where('status', '=', 1)->where('parent_id', 0)->with('child');
+    }
+
     public static function softDelete($id)
     {
-        self::where('id', '=', $id)->update([
+        self::specify($id, 'id')->update([
             'status' => -1,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        self::where('parent_id', '=', $id)->update([
+        self::specify('parent_id', '=', $id)->update([
             'status' => -1,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -77,12 +85,20 @@ class Category extends Model
         $description = $request->get('description');
         $status = $request->get('status');
         $parent_id = $request->get('parent_category');
-        self::where('id', '=', $id)->update([
+        self::specify($id, 'id')->update([
             'name' => $categoryName,
             'description' => $description,
             'status' => $status,
             'parent_id' => $parent_id,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+    }
+
+    public function scopeSpecify($query, $id, $target){
+        return $query->where($target, '=', $id);
+    }
+
+    public static function countCategories(){
+        return Category::all()->count();
     }
 }

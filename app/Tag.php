@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use function request;
 
 class Tag extends Model
 {
@@ -21,17 +22,24 @@ class Tag extends Model
     public static function updateTag($id)
     {
         $tagName = request('tag_name');
-        self::where('id', $id)->update([
+        self::specifiedTag($id)->update([
             'tag_name' => $tagName,
         ]);
     }
 
-    public static function store()
+    public static function store($tagName)
     {
-
         self::insert([
-            'tag_name' => \request('tag_name'),
+            'tag_name' => $tagName,
         ]);
+    }
 
+    public function scopeSpecifiedTag($query, $id)
+    {
+        return $query->where('id', $id);
+    }
+
+    public static function getTagByLimit($limit){
+        return self::with('relation')->orderBy('id', 'DESC')->paginate($limit);
     }
 }

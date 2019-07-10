@@ -24,8 +24,9 @@ use Laravel\Scout\Searchable;
 class Posts extends Model
 {
     protected $table = 'posts';
+    protected $guarded = [];
 
-    protected function category()
+    public function category()
     {
         return $this->belongsTo('App\Category', 'category_id', 'id');
     }
@@ -49,87 +50,91 @@ class Posts extends Model
     /**
      * @return Factory|View
      */
-    public static function posts(){
-        $data = self::where('status', '=', 1)->paginate(15);
-
-        return $data;
+    public function scopePosts($query)
+    {
+        return $query->where('status', '=', 1);
     }
 
     /**
      * @return mixed
      */
-    public function inactivePost(){
-        $posts = Posts::where('status', '=', -1)->paginate(15);
-        return $posts;
+    public function scopeInactivePost($query)
+    {
+        return $query->where('status', '=', -1);
     }
 
 
-    public static function updatePost($id){
+    public static function updatePost($id, $title, $status, $category, $mainImage, $data)
+    {
         self::where('id', $id)->update([
-            'title' => request()->title,
-            'status' => request()->status,
-            'category_id' => request()->category,
+            'title' => $title,
+            'status' => $status,
+            'category_id' => $category,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-        if (request()->main_image !== null) {
+        if ($mainImage !== null) {
             self::where('id', $id)->update(['main_image' => $_FILES['main_image']['name']]);
-            $target_dir = public_path() . '\uploads\\';
-            $target_file = $target_dir . basename($_FILES['main_image']['name']);
-            if (isset($_POST["submit"])) {
-                if (!file_exists($target_file)) {
-                    move_uploaded_file($_FILES["main_image"]["tmp_name"], $target_file);
-                }
+            $target_file =  public_path() . '\uploads\\' . basename($_FILES['main_image']['name']);
+            self::uploadImage($target_file);
+        }
+        Meta::updateData($id, $data);
+    }
+
+    public function uploadImage($target_file){
+        if (isset($_POST["submit"])) {
+            if (!file_exists($target_file)) {
+                move_uploaded_file($_FILES["main_image"]["tmp_name"], $target_file);
             }
         }
-        Meta::where('post_id', $id)->update([
-            'data' => request()->content_text
-        ]);
     }
 
     /**
      * @param $id
      * @return mixed
      */
-    public static function edit($id){
-        $post = self::where('id',$id)->with('meta')->first();
+    public static function editPost($id)
+    {
+        $post = self::where('id', $id)->with('meta')->firstOrFail();
         return $post;
     }
 
     /**
      * @effect: update post status from request
-     * @return bool|RedirectResponse|Redirector|null
+     *
      */
-    public static function deletePost()
+    public static function deletePost($id, $status)
     {
-        $id = request()->post('id', '');
-        $status = request()->post('status', '');
         self::where('id', $id)->update([
             'status' => $status,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-        return redirect('posts');
     }
 
-    public static function insert(){
-
+    public static function insert($title, $status, $category, $data)
+    {
         $id = self::insertGetId([
-            'title' => request()->title,
-            'status' => request()->status,
+            'title' => $title,
+            'status' =>$status,
             'main_image' => $_FILES['main_image']['name'],
-            'category_id' => request()->category
+            'category_id' => $category
         ]);
         $target_dir = public_path() . '\uploads\\';
         $target_file = $target_dir . basename($_FILES['main_image']['name']);
 
         if (isset($_POST["submit"])) {
             if (!file_exists($target_file)) {
-                move_uploaded_file($_FILES["main_image"]["tmp_name"], $target_file);
+                self::uploadImage($target_file);
             }
         }
+        Meta::updateData($id, $data);
+    }
 
-        $meta = new Meta();
-        $meta->data = request()->content_text;
-        $meta->post_id = $id;
-        $meta->save();
+    public static function getPostWithStatus($status, $limit = 10)
+    {
+        return self::where('status', $status)->with('category', 'meta')->paginate($limit);
+    }
+
+    public static function countPosts(){
+        return Posts::all()->count();
     }
 }

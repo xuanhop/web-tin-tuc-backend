@@ -29,4 +29,9 @@ class Meta extends Model
         $this->save();
     }
 
+    static function updateData($id, $data){
+        self::where('post_id', $id)->update([
+            'data' => $data
+        ]);
+    }
 }

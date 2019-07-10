@@ -8,7 +8,7 @@
 
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span
-                                class="label label-success pull-right">2</span> <span> Dashboard </span> </a>
+                                class="label label-success pull-right"></span> <span> Dashboard </span> </a>
                     <ul class="list-unstyled">
                         <li><a href="{{asset('dashboard')}}">Dashboard</a></li>
                     </ul>
@@ -30,7 +30,6 @@
                         <li><a href="{{asset('contact/location')}}">Google Maps</a></li>
                     </ul>
                 </li>
-
 
 
                 <li class="menu-title">More</li>

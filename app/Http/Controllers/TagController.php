@@ -18,7 +18,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::with('relation')->orderBy('id', 'DESC')->paginate(15);
+        $tags = Tag::getTagByLimit(15);
         return view('tag_manage', ['tags' => $tags]);
     }
 
@@ -39,7 +39,10 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::where('id', $id)->first();
+        $tag = Tag::specifiedTag($id)->first();
+        if ($tag == null) {
+           return redirect('tag/create');
+        }
         return view('edit_tag')->with('tag', $tag);
     }
 
@@ -58,10 +61,10 @@ class TagController extends Controller
      */
     public function store()
     {
-        \request()->validate([
+        $tagName = request()->validate([
             'tag_name' => 'required'
         ]);
-        Tag::store();
+        Tag::store($tagName);
         return redirect('tag');
     }
 }

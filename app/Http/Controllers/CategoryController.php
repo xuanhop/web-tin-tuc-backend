@@ -18,7 +18,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Category::store($request);
+        $request->validate([
+            'category_name' => 'required'
+        ]);
+        $categoryName = $request->get('category_name');
+        $description = $request->get('description');
+        $status = $request->get('status');
+        $parent_id = $request->get('parent_category');
+        Category::store($categoryName, $description, $status, $parent_id);
         return redirect('categories');
     }
 
@@ -40,8 +47,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::where('id', '=', $id)->first();
-        $categories = Category::where('status', '=', 1)->get();
+        $category = Category::specify($id, 'id')->firstOrFail();
+        if ($category == null){
+            return redirect('categories/create');
+        }
+        $categories = Category::index()->get();
         return view('edit_category', ['category' => $category, 'categories' => $categories]);
     }
 
@@ -57,12 +67,12 @@ class CategoryController extends Controller
     }
 
     public function categories(){
-        $categories = \App\Category::where('status', '=', 1)->where('parent_id', 0)->with('child')->get();
+        $categories = Category::categories()->get();
         return view('categories', ['categories' => $categories]);
     }
 
     public function index(){
-        $categories = \App\Category::where('status', '=', 1)->get();
+        $categories = Category::index()->get();
         return view('create_category', ['categories' => $categories]);
     }
 
@@ -70,7 +80,7 @@ class CategoryController extends Controller
      * @return Factory|View
      */
     public function disable_item(){
-        $disableCategories = \App\Category::where('status', '=', -1)->get();
+        $disableCategories = Category::disable()->get();
         return view('disable-item', ['disableCategories' => $disableCategories]);
     }
 }

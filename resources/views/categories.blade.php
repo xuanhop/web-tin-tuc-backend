@@ -28,23 +28,20 @@
                 </div>
                 <div>
                     <table class="table-bordered table">
-                        <thead class="table sticky-table-header">
-                        <tr>
+
+                        <tr class="table sticky-table-header">
                             <td>Id</td>
-                            <td></td>
-                            <td>Name</td>
+                            <td colspan="">Name</td>
                             <td>Description</td>
                             <td>Created at</td>
                             <td>Updated at</td>
                             <td>Creator/Editor</td>
                             <td class="actions">Action</td>
                         </tr>
-                        </thead>
-                        <tbody>
                         @foreach($categories as $category)
                             @include('loop-category', ['category' => $category , 'child' => 0])
                         @endforeach
-                        </tbody>
+
                     </table>
                 </div>
             </div>

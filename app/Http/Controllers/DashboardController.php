@@ -11,8 +11,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $postNumber = Posts::all()->count();
-        $categoriesNumber = Category::all()->count();
+        $postNumber = Posts::countPosts();
+        $categoriesNumber = Category::countCategories();
         $userNumber = DB::table('guests')->count();
         return view('index',
             ['postNumber' => $postNumber, 'categoriesNumber' => $categoriesNumber, 'userNumber' => $userNumber]);
