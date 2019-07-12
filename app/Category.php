@@ -64,7 +64,7 @@ class Category extends Model
 
     public function scopeCategories($query)
     {
-        return $query->where('status', '=', 1)->where('parent_id', 0)->with('child');
+        return $query->where('parent_id', 0)->where('status', '=', 1)->with('child');
     }
 
     public static function softDelete($id)
@@ -73,7 +73,7 @@ class Category extends Model
             'status' => -1,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        self::specify('parent_id', '=', $id)->update([
+        self::specify($id, 'parent_id')->update([
             'status' => -1,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -94,11 +94,13 @@ class Category extends Model
         ]);
     }
 
-    public function scopeSpecify($query, $id, $target){
+    public function scopeSpecify($query, $id, $target)
+    {
         return $query->where($target, '=', $id);
     }
 
-    public static function countCategories(){
+    public static function countCategories()
+    {
         return Category::all()->count();
     }
 }

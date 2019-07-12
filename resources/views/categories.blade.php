@@ -28,10 +28,11 @@
                 </div>
                 <div>
                     <table class="table-bordered table">
-
                         <tr class="table sticky-table-header">
                             <td>Id</td>
-                            <td colspan="">Name</td>
+                            <td >
+                                Name
+                            </td>
                             <td>Description</td>
                             <td>Created at</td>
                             <td>Updated at</td>
@@ -41,7 +42,7 @@
                         @foreach($categories as $category)
                             @include('loop-category', ['category' => $category , 'child' => 0])
                         @endforeach
-
+                        {{$categories->links()}}
                     </table>
                 </div>
             </div>

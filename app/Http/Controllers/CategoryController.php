@@ -67,10 +67,14 @@ class CategoryController extends Controller
     }
 
     public function categories(){
-        $categories = Category::categories()->get();
+        $categories = Category::categories()->paginate(15);
         return view('categories', ['categories' => $categories]);
     }
 
+    /**
+     * @effect: Get all categories and pass to view create category
+     * @return Factory|View
+     */
     public function index(){
         $categories = Category::index()->get();
         return view('create_category', ['categories' => $categories]);
@@ -80,7 +84,7 @@ class CategoryController extends Controller
      * @return Factory|View
      */
     public function disable_item(){
-        $disableCategories = Category::disable()->get();
+        $disableCategories = Category::disable()->paginate(15);
         return view('disable-item', ['disableCategories' => $disableCategories]);
     }
 }

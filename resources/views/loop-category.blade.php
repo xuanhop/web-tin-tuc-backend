@@ -1,10 +1,14 @@
 <tr>
     <td>{{$category->id}}</td>
     <td>
+        @if($child == 0)
+            <i class="glyphicon glyphicon-level-up"></i>
+        @endif
+        @for($i = 0; $i< $child; $i++)
+                &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-right"></i>
+        @endfor
         {{$category->name}}
     </td>
-    <td></td>
-    <td></td>
     <td>{{$category->description}}</td>
     <td>{{$category->created_at}}</td>
     <td>{{$category->updated_at}}</td>

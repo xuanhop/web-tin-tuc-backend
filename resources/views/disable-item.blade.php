@@ -31,7 +31,6 @@
                         <thead class="table sticky-table-header">
                         <tr>
                             <td>Id</td>
-                            <td></td>
                             <td>Name</td>
                             <td>Description</td>
                             <td>Created at</td>
@@ -46,6 +45,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{$disableCategories->links()}}
                 </div>
             </div>
         </div>
